@@ -28,13 +28,18 @@ class mirm_core extends PluginBase implements Listener
             mkdir($this->getDataFolder(), 0744, true);
         }
         
-        kaitoku tuikao
-        
         global $config;
         $config = new Config($this->getDataFolder() . "configcore.yml", Config::YAML,
-            array("これは設定です"=>array("HP"=>100,"aコアのid"=>100,"bコアのid"=>100,"TPのブロックのid"=>100,  コア破壊得点: 1
-  キル得点: 1
-  ゲームモード: 1,"a座標のX"=>100,"a座標のY"=>100,"a座標のZ"=>100,"b座標のX"=>100,"b座標のY"=>100,"b座標のZ"=>100)
+            array("これは設定です"=>
+                array("HP"=>100,
+                    "aコアのid"=>100,
+                    "bコアのid"=>100,
+                    "TPのブロックのid"=>100,
+                    "コア破壊得点"=>1,
+                    "キル得点"=> 1,
+                    "ゲームモード"=> 1,
+                    "a座標のX"=>100,"a座標のY"=>100,"a座標のZ"=>100,
+                    "b座標のX"=>100,"b座標のY"=>100,"b座標のZ"=>100)
                 )
         );
         global $config2;
@@ -45,11 +50,10 @@ class mirm_core extends PluginBase implements Listener
         );
 
 
-economys
-        if(Server::getInstance()->getPluginManager()->getPlugin("PocketMoney") !=null) {
-            $this->pocketmoney = $this->getServer()->getPluginManager()->getPlugin("PocketMoney");
+        if(Server::getInstance()->getPluginManager()->getPlugin("EconomyAPI") !=null) {
+            $this->EconomyAPI = $this->getServer()->getPluginManager()->getPlugin("EconomyAPI");
         }else{
-            Server::getInstance()->getLogger()->info("pocketmoneyが読み込めませんでした");
+            Server::getInstance()->getLogger()->info("EconomyAPIが読み込めませんでした");
         }
         ///
         $this->team = [1 => [] , 2 => [] ];
@@ -69,6 +73,7 @@ economys
         unset($this->players);
         unset($this->joined);
         unset($this->team);
+        unset($this->teamcore);
         foreach ($this->getServer()->getOnlinePlayers() as $p) {
             $p->kick("鯖がリロードまたは終了しました。");
         }
@@ -137,16 +142,17 @@ economys
         $name = $player->getName();
         global $config;
 
-        if($event->getBlock()->getID() == $config->get("aコアのid")||$event->getBlock()->getID() == $config->get("bコアのid")){
+        $cnf = $config->get("これは設定です");
+        if($event->getBlock()->getID() == $cnf["aコアのid"]||$event->getBlock()->getID() == $cnf["bコアのid"]){
             $event->setCancelled(true);
-            if($event->getBlock()->getID() == $config->get("aコアのid") and isset($this->team[2][$name])){
+            if($event->getBlock()->getID() == $cnf["aコアのid"] and isset($this->team[2][$name])){
                 $teamname="TeamA";
                 if($this->teamcore[1] ==0){
                     $teamname ="TeamB";
                     $ok=1;
                 }
             }
-            elseif($event->getBlock()->getID() == $config->get("bコアのid") and isset($this->team[1][$name])){
+            elseif($event->getBlock()->getID() == $cnf["bコアのid"] and isset($this->team[1][$name])){
                 $teamname="TeamB";
                 if($this->teamcore[2] ==0){
                     $ok=1;
@@ -161,26 +167,41 @@ economys
             }
             if(!isset($ng)){
                 $players = Server::getInstance()->getOnlinePlayers();
+                $money= $cnf["コア破壊得点"];
+                $this->EconomyAPI->addMoney($name,$money);
                 foreach ($players as $playerass) {
                     //壊した人の名前§fがチーム名
                     $playerass->sendPopUp("§e".$name."が".$teamname."のコアを破壊しています！ \n残りHP TeamA:".$this->teamcore[1]." TeamB:".$this->teamcore[2]);
                 }
                 if(isset($ok)){
                     unset($ok);
-                    $this->getServer()->broadcastMessage(TextFormat::RED ."[PVP]".$teamname."チームが勝ちました。";
+                    $this->getServer()->broadcastMessage(TextFormat::RED ."[PVP]".$teamname."チームが勝ちました。");
 
                     ///プレイヤーtpと動けなくする
                     foreach ($players as $playerass) {
                         $playerass->teleport(Server::getInstance()->getDefaultLevel()->getSpawnLocation());
                     }
 
+                    ///
+                    $this->team = [1 => [] , 2 => [] ];
+                    $this->joinedpvp = array();
+                    $this->teamcore =array();
 
-					得点リセット
+                    //teamcore代入
+                    $c =$config->get("これは設定です");
+                    $this->teamcore[1]=$c["HP"];
+                    $this->teamcore[2]=$c["HP"];
+                    ////
+                    unset($this->joined);
+                    unset($this->team);
+                    unset($this->teamcore);
+
                 }
             }
         }
     }
 
+    コマンド
 
 
     public function onPlayerDeath(PlayerDeathEvent $event){
@@ -248,6 +269,7 @@ economys
 
     public function death(PlayerDeathEvent $event){
         $player = $event->getPlayer();
+        global $config;
         global $config2;
         $ev = $player->getLastDamageCause();
         if ($ev instanceof EntityDamageByEntityEvent) {
@@ -266,11 +288,11 @@ economys
                  君は○○を倒した！
                  ○○PMをゲットした！
                  次のレベルまで残り○○キル*/
-                $permoney =$config2->get("これは設定です");
-                $money = $lv["level"]*$permoney["xレベルの時にいくらもらえるか"];
-                $this->pocketmoney->grantMoney($killername,$money,true);
+                $permoney =$config->get("これは設定です");
+                $money = $permoney["キル得点"];
+                $this->EconomyAPI->addMoney($killername,$money);
                 $killer->sendMessage("君は".$player->getName()."を倒した！\n
-                ".$money."PMをゲットした！\n
+                ".$money."をゲットした！\n
                 次のレベルまで残り".($lv["kill"]-($lv["level"]*100))."キル\n
                 ");
                 $config2->set($killername,$lv);
