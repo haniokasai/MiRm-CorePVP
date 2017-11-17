@@ -1,14 +1,13 @@
 <?php
 namespace amatya_core;
+use pocketmine\command\Command;
+use pocketmine\command\CommandSender;
 use pocketmine\event\block\BlockBreakEvent;
-use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
-use pocketmine\item\Item;
-use pocketmine\item\ItemBlock;
 use pocketmine\math\Vector3;
 use pocketmine\Player;
 use pocketmine\Server;
@@ -201,9 +200,13 @@ class mirm_core extends PluginBase implements Listener
         }
     }
 
-    コマンド
 
+    public function onCommand(CommandSender $sender, Command $command,$label,array $args){
+        switch($command->getName()) {
+            case "pvp": {
 
+            }
+        }
     public function onPlayerDeath(PlayerDeathEvent $event){
         $player = $event->getPlayer();
         $name = $player->getName();
