@@ -201,31 +201,75 @@ class mirm_core extends PluginBase implements Listener
     }
 
 
-    public function onCommand(CommandSender $sender, Command $command,$label,array $args){
-        switch($command->getName()) {
-            case "pvp": {
+    public function onCommand(CommandSender $sender, Command $command,$label,array $args)
+    {
+        switch ($command->getName()) {
+            case "corepvp": {
 
+                if(!isset($args[0])){
+                    $sender->sendMessage("Usege: /corepvp <mode/sethp/setspawn/killpoint/corepoint>");
+                    break;
+                }
+
+                switch ($args[0]){
+                    case "mode":{
+                        break;
+                    }
+                    case "sethp":{
+                        break;
+                    }
+                    case "setspawn":{
+                        break;
+                    }
+                    case "killpoint":{
+                        break;
+                    }
+                    case "corepoint":{
+                        break;
+                    }
+
+                }
+            }
+            case "tc": {
+                $name = $sender->getName();
+                $players = Server::getInstance()->getOnlinePlayers();
+                if(isset($this->team[1][$name])){
+                    foreach ($players as $player) {
+                        if(isset($this->team[1][$player->getName()])){
+                            $player->sendMessage(TextFormat::BLUE."[チームチャット]".$name.":".implode(" ", $args));
+                        }}
+                }elseif(isset($this->team[2][$name])){
+                    foreach ($players as $player) {
+                        if(isset($this->team[2][$player->getName()])){
+                            $player->sendMessage(TextFormat::BLUE."[チームチャット]".$name.":".implode(" ", $args));
+                        }}
+                }
+                break;
             }
         }
-    public function onPlayerDeath(PlayerDeathEvent $event){
-        $player = $event->getPlayer();
-        $name = $player->getName();
-        unset($this->joinedpvp[$name]);
     }
-
-    public function onPlayerQuit(PlayerQuitEvent $event){
-        $player = $event->getPlayer();
-        $name = $player->getName();
-        unset($this->joinedpvp[$name]);
-    }
-
-    public function getTeam($name)
+    public function onPlayerDeath(PlayerDeathEvent $event)
     {
-        if(isset($this->team[1][$name])){
+        $player = $event->getPlayer();
+        $name = $player->getName();
+        unset($this->joinedpvp[$name]);
+    }
+
+    public function onPlayerQuit(PlayerQuitEvent $event)
+    {
+        $player = $event->getPlayer();
+        $name = $player->getName();
+        unset($this->joinedpvp[$name]);
+    }
+
+    public
+    function getTeam($name)
+    {
+        if (isset($this->team[1][$name])) {
             return "a";
-        }elseif(isset($this->team[2][$name])){
+        } elseif (isset($this->team[2][$name])) {
             return "b";
-        }else {
+        } else {
             return "f";
         }
 
@@ -233,30 +277,33 @@ class mirm_core extends PluginBase implements Listener
 
 
     ////共食い
-    public function optionbow(EntityDamageEvent $event){
-        if($event instanceof EntityDamageEvent){
-            if($event instanceof EntityDamageByEntityEvent) {
-                if($event->getDamager() instanceof Player && $event->getEntity() instanceof Player) {
+    public function optionbow(EntityDamageEvent $event)
+    {
+        if ($event instanceof EntityDamageEvent) {
+            if ($event instanceof EntityDamageByEntityEvent) {
+                if ($event->getDamager() instanceof Player && $event->getEntity() instanceof Player) {
                     $sender = $event->getDamager();
                     $reciever = $event->getEntity();
                     unset($sname);
                     unset($rname);
                     $sname = $sender->getName();
                     $rname = $reciever->getName();
-                    if(!isset($this->joinedpvp[$sname])){
-                        $sender->sendPopUp(TextFormat::YELLOW."PVPに参加していないプレイヤーは攻撃できません。");
+                    if (!isset($this->joinedpvp[$sname])) {
+                        $sender->sendPopUp(TextFormat::YELLOW . "PVPに参加していないプレイヤーは攻撃できません。");
                         $event->setCancelled();
                     }
-                    if(isset($this->team[1][$sname])and  isset($this->team[1][$rname])){$sender->sendPopUp(TextFormat::YELLOW."同チームのプレイヤーは攻撃できません。");
+                    if (isset($this->team[1][$sname]) and isset($this->team[1][$rname])) {
+                        $sender->sendPopUp(TextFormat::YELLOW . "同チームのプレイヤーは攻撃できません。");
                         $event->setCancelled();
-                    }
-                    elseif(isset($this->team[2][$sname])and isset( $this->team[2][$rname])){$sender->sendPopUp(TextFormat::YELLOW."同チームのプレイヤーは攻撃できません。");
+                    } elseif (isset($this->team[2][$sname]) and isset($this->team[2][$rname])) {
+                        $sender->sendPopUp(TextFormat::YELLOW . "同チームのプレイヤーは攻撃できません。");
                         $event->setCancelled();
                     }
                 }
             }
         }
     }
+
 
     /**
      * @param PlayerJoinEvent $event

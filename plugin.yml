@@ -8,32 +8,12 @@ description: MiRm Core Plugin
 website: haniokasai.com
 
 commands:
- stat:
-  description: "チームの人数確認"
- mi:
-  description: "自分の状態がわかります"
- pvp:
-  description: "pvpに参加"
- rank:
-  description: "称号"
- c:
-  description: "チームチャット"
- gm:
-  description: "閲覧モード/サバイバル（アイテムが消えるので注意)"
- pban:
-  description: "閲覧モード/サバイバル（アイテムが消えるので注意)"
+ corepvp:
+  description: "CorePVP"
+ tc:
+  descrition: "チームチャット"
 permissions:
- stat:
+ corepvp:
   default: true
- mi:
-  default: true
- pvp:
-  default: true
- rank:
-  default: true
- c:
-  default: true
- gm:
-  default: true
- pban:
-  default: true
+ tc:
+  default: op
