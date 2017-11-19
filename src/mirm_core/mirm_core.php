@@ -1,5 +1,5 @@
 <?php
-namespace amatya_core;
+namespace mirm_core;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\event\block\BlockBreakEvent;
