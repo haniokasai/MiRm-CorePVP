@@ -29,7 +29,6 @@ class mirm_core extends PluginBase implements Listener
         
         global $config;
         $config = new Config($this->getDataFolder() . "configcore.yml", Config::YAML,
-            array("これは設定です"=>
                 array("HP"=>100,
                     "aコアのid"=>100,
                     "bコアのid"=>100,
@@ -39,13 +38,10 @@ class mirm_core extends PluginBase implements Listener
                     "ゲームモード"=> "off",
                     "a座標のX"=>100,"a座標のY"=>100,"a座標のZ"=>100,
                     "b座標のX"=>100,"b座標のY"=>100,"b座標のZ"=>100)
-                )
         );
         global $config2;
         $config2 = new Config($this->getDataFolder() . "configlevel.yml", Config::YAML,
-            array('プレイヤー名' =>array("kill"=>0,"level"=>0),
-                "これは設定です"=>array("xレベルの時にいくらもらえるか"=>100)
-            )
+            array('プレイヤー名_kill',"10")
         );
 
 
@@ -60,9 +56,8 @@ class mirm_core extends PluginBase implements Listener
         $this->teamcore =array();
 
         //teamcore代入
-        $c =$config->get("これは設定です");
-        $this->teamcore[1]=$c["HP"];
-        $this->teamcore[2]=$c["HP"];
+        $this->teamcore[1]=$config->get("HP");
+        $this->teamcore[2]=$config->get("HP");
         ////
         Server::getInstance()->getLogger()->info("mirm-coreが読み込まれました");
     }
@@ -103,9 +98,8 @@ class mirm_core extends PluginBase implements Listener
         if(isset($this->end) && $this->end){
             return;
         }
-        
-        $a = $config->get("これは設定です");
-        if ($blockid == $a["TPのブロックのid"]){
+
+        if ($blockid == $config->get("TPのブロックのid")){
             unset($blockid );
             echo 1;
             if(isset($this->joinedpvp[$name] )){
@@ -120,14 +114,13 @@ class mirm_core extends PluginBase implements Listener
                 $this->team[1][$name] = 1;
                 unset( $this->team[2][$name]);
                 $teamname = "TeamA";
-                $c =$config->get("これは設定です");
-                $pos = new  Vector3($c["a座標のX"],$c["a座標のY"],$c["a座標のZ"]);
+                $pos = new  Vector3($config->get("a座標のX"),$config->get("a座標のY"),$config->get("a座標のZ"));
             }else{
                 $this->team[2][$name] = 1;
                 unset( $this->team[1][$name]);
                 $teamname = "TeamB";
                 $c =$config->get("これは設定です");
-                $pos = new  Vector3($c["b座標のX"],$c["b座標のY"],$c["b座標のZ"]);
+                $pos = new  Vector3($config->get("b座標のX"),$config->get("b座標のY"),$config->get("b座標のZ"));
             }
 
             $player->sendMessage("君は".$teamname."チームだ健闘を祈る！");
@@ -141,17 +134,16 @@ class mirm_core extends PluginBase implements Listener
         $name = $player->getName();
         global $config;
 
-        $cnf = $config->get("これは設定です");
-        if($event->getBlock()->getID() == $cnf["aコアのid"]||$event->getBlock()->getID() == $cnf["bコアのid"]){
+        if($event->getBlock()->getID() == $config->get("aコアのid")||$event->getBlock()->getID() == $config->get("bコアのid")){
             $event->setCancelled(true);
-            if($event->getBlock()->getID() == $cnf["aコアのid"] and isset($this->team[2][$name])){
+            if($event->getBlock()->getID() == $config->get("aコアのid") and isset($this->team[2][$name])){
                 $teamname="TeamA";
                 if($this->teamcore[1] ==0){
                     $teamname ="TeamB";
                     $ok=1;
                 }
             }
-            elseif($event->getBlock()->getID() == $cnf["bコアのid"] and isset($this->team[1][$name])){
+            elseif($event->getBlock()->getID() == $config->get("bコアのid") and isset($this->team[1][$name])){
                 $teamname="TeamB";
                 if($this->teamcore[2] ==0){
                     $ok=1;
@@ -166,7 +158,7 @@ class mirm_core extends PluginBase implements Listener
             }
             if(!isset($ng)){
                 $players = Server::getInstance()->getOnlinePlayers();
-                $money= $cnf["コア破壊得点"];
+                $money= $config->get("コア破壊得点");
                 $this->EconomyAPI->addMoney($name,$money);
                 foreach ($players as $playerass) {
                     //壊した人の名前§fがチーム名
@@ -187,9 +179,8 @@ class mirm_core extends PluginBase implements Listener
                     $this->teamcore =array();
 
                     //teamcore代入
-                    $c =$config->get("これは設定です");
-                    $this->teamcore[1]=$c["HP"];
-                    $this->teamcore[2]=$c["HP"];
+                    $this->teamcore[1]=$config->get("HP");
+                    $this->teamcore[2]=$config->get("HP");
                     ////
                     unset($this->joined);
                     unset($this->team);
@@ -239,7 +230,7 @@ class mirm_core extends PluginBase implements Listener
                         }
 
                         $mode=$args[1];
-                        $config->set("これは設定です",array("ゲームモード"=>$mode));
+                        $config->set("ゲームモード",$mode);
                         $config->save();
 
                         $sender->sendMessage("ゲームモード変更完了。");
@@ -312,8 +303,7 @@ class mirm_core extends PluginBase implements Listener
         unset($this->joinedpvp[$name]);
     }
 
-    public
-    function getTeam($name)
+    public function getTeam($name)
     {
         if (isset($this->team[1][$name])) {
             return "a";
@@ -359,10 +349,12 @@ class mirm_core extends PluginBase implements Listener
      * @param PlayerJoinEvent $event
      */
     public function Onjoin(PlayerJoinEvent $event){
-        global $config2;
+        global /** @var Config $config2 */
+        $config2;
         $player = $event->getPlayer();
         if(!$config2->exists($player->getName())){
-            $config2->set($player->getName(),array("kill"=>0,"level"=>1));
+            $config2->set($player->getName()."_kill",0);
+            $config2->set($player->getName()."_level",0);
         }
         $this->setTitle($player);
     }
@@ -377,23 +369,24 @@ class mirm_core extends PluginBase implements Listener
             $killer = $ev->getDamager();
             $killername = $killer->getName();
             if ($killer instanceof Player) {
-                $lv = $config2->get($killername);
-                $lv["kill"]++;
-                if($lv["level"] !=0&$lv["level"]%100==0){
+                $lv = $config2->get($killername."_level");
+                $kill = $config2->get($killername."_kill");
+                $kill++;
+                if($lv !=0&$lv%100==0){
                     if($config2->get($killername)!=15) {
-                        $lv["level"] = round($lv["kill"] / 100);
+                        $lv= round($kill/ 100);
                     }
                 }
                 /* Levelプラグインで倒した時に
                  君は○○を倒した！
                  ○○PMをゲットした！
                  次のレベルまで残り○○キル*/
-                $permoney =$config->get("これは設定です");
-                $money = $permoney["キル得点"];
+
+                $money = $config->get("キル得点");
                 $this->EconomyAPI->addMoney($killername,$money);
                 $killer->sendMessage("君は".$player->getName()."を倒した！\n
                 ".$money."をゲットした！\n
-                次のレベルまで残り".($lv["kill"]-($lv["level"]*100))."キル\n
+                次のレベルまで残り".($kill-($lv*100))."キル\n
                 ");
                 $config2->set($killername,$lv);
                 $this->setTitle($killer);

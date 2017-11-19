@@ -16,8 +16,8 @@
       <file leaf-file-name="mirm_core.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/mirm_core/mirm_core.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="241" column="47" lean-forward="false" selection-start-line="241" selection-start-column="47" selection-end-line="241" selection-end-column="47" />
+            <state relative-caret-position="506">
+              <caret line="390" column="45" lean-forward="false" selection-start-line="390" selection-start-column="42" selection-end-line="390" selection-end-column="45" />
               <folding>
                 <element signature="e#27#58#0#PHP" expanded="true" />
               </folding>
@@ -30,9 +30,13 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>onfig-&gt;get</find>
+      <find>]</find>
     </findStrings>
     <replaceStrings>
       <replace>nf</replace>
+      <replace>$config-&gt;get(</replace>
+      <replace>9</replace>
+      <replace>)</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -229,12 +233,12 @@
       <workItem from="1510928207970" duration="603000" />
       <workItem from="1510929968322" duration="2199000" />
       <workItem from="1511007344800" duration="1920000" />
-      <workItem from="1511098547938" duration="2018000" />
+      <workItem from="1511098547938" duration="3238000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8464000" />
+    <option name="totallyTimeSpent" value="9684000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
@@ -362,8 +366,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mirm_core/mirm_core.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="241" column="47" lean-forward="false" selection-start-line="241" selection-start-column="47" selection-end-line="241" selection-end-column="47" />
+        <state relative-caret-position="506">
+          <caret line="390" column="45" lean-forward="false" selection-start-line="390" selection-start-column="42" selection-end-line="390" selection-end-column="45" />
           <folding>
             <element signature="e#27#58#0#PHP" expanded="true" />
           </folding>
