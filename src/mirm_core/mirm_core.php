@@ -36,7 +36,7 @@ class mirm_core extends PluginBase implements Listener
                     "TPのブロックのid"=>100,
                     "コア破壊得点"=>1,
                     "キル得点"=> 1,
-                    "ゲームモード"=> 1,
+                    "ゲームモード"=> "off",
                     "a座標のX"=>100,"a座標のY"=>100,"a座標のZ"=>100,
                     "b座標のX"=>100,"b座標のY"=>100,"b座標のZ"=>100)
                 )
@@ -203,7 +203,17 @@ class mirm_core extends PluginBase implements Listener
 
     public function onCommand(CommandSender $sender, Command $command,$label,array $args)
     {
+
+        /** @var Player $player */
+        $player = $sender;
+
+        $name = $player->getName();
+
+        global /** @var Config $config */
+        $config;
+
         switch ($command->getName()) {
+
             case "corepvp": {
 
                 if(!isset($args[0])){
@@ -213,21 +223,60 @@ class mirm_core extends PluginBase implements Listener
 
                 switch ($args[0]){
                     case "mode":{
+                        if(!isset($args[1])){
+                            $sender->sendMessage("Usege: /corepvp mode <off:ffa:core>");
+                            return;
+                        }
+
+                        switch ($args[1]){
+                            case "off":
+                            case "core":
+                            case "ffa":
+                                break;
+                            default:
+                                return;
+                        }
+
+                        $mode=$args[1];
+                        $config->set(array("これは設定です"=>"ゲームモード"),$mode);
+                        $config->save();
+
+                        $sender->sendMessage("ゲームモード変更完了。");
+
                         break;
                     }
                     case "sethp":{
+                        if(!isset($args[1])&&is_numeric($args[1])){
+                            $sender->sendMessage("Usege: /corepvp sethp 数字");
+                            return;
+                        }
+
                         break;
                     }
                     case "setspawn":{
+                        if(!isset($args[1])&&is_numeric($args[1])){
+                            $sender->sendMessage("Usege: /corepvp setspawn <team1:team2>");
+                            return;
+                        }
+
                         break;
                     }
                     case "killpoint":{
+                        if(!isset($args[1])&&is_numeric($args[1])){
+                            $sender->sendMessage("Usege: /corepvp killpoint 数字");
+                            return;
+                        }
+
                         break;
                     }
                     case "corepoint":{
+                        if(!isset($args[1])&&is_numeric($args[1])){
+                            $sender->sendMessage("Usege: /corepvp corepoint 数字");
+                            return;
+                        }
+
                         break;
                     }
-
                 }
             }
             case "tc": {
