@@ -234,11 +234,12 @@ class mirm_core extends PluginBase implements Listener
                             case "ffa":
                                 break;
                             default:
+                                $sender->sendMessage("Usege: /corepvp mode <off:ffa:core>");
                                 return;
                         }
 
                         $mode=$args[1];
-                        $config->set(array("これは設定です"=>"ゲームモード"),$mode);
+                        $config->set("これは設定です",array("ゲームモード"=>$mode));
                         $config->save();
 
                         $sender->sendMessage("ゲームモード変更完了。");
