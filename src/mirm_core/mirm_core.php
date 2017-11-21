@@ -150,7 +150,7 @@ class mirm_core extends PluginBase implements Listener
             $event->setCancelled(true);
             if($event->getBlock()->getID() ==247 and $event->getBlock()->getDamage() == 1 and isset($this->team[2][$name])){
                 $teamname="TeamA";
-                $this->teamcore[1]--;
+                $this->teamcore[1]=$this->teamcore[1]-1;
                 if($this->teamcore[1] ==0){
                     $teamname ="TeamB";
                     $ok=1;
@@ -158,7 +158,7 @@ class mirm_core extends PluginBase implements Listener
             }
             elseif($event->getBlock()->getID() == 247  and $event->getBlock()->getDamage() == 2 and isset($this->team[1][$name])){
                 $teamname="TeamB";
-                $this->teamcore[2]--;
+                $this->teamcore[2]=$this->teamcore[2]-1;
                 if($this->teamcore[2] ==0){
                     $ok=1;
                     $teamname ="TeamA";
