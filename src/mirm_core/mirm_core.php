@@ -30,9 +30,9 @@ class mirm_core extends PluginBase implements Listener
         global $config;
         $config = new Config($this->getDataFolder() . "configcore.yml", Config::YAML,
                 array(
-                    "aコアのid"=>100,
-                    "bコアのid"=>100,
-                    "TPのブロックのid"=>100,
+                    "aコアのid"=>247,
+                    "bコアのid"=>247,
+                    "TPのブロックのid"=>19,
                     "HP"=>50,
                     "コア破壊得点"=>1,
                     "キル得点"=> 1,
@@ -149,14 +149,14 @@ class mirm_core extends PluginBase implements Listener
 
         if($event->getBlock()->getID() == $config->get("aコアのid")||$event->getBlock()->getID() == $config->get("bコアのid")){
             $event->setCancelled(true);
-            if($event->getBlock()->getID() == $config->get("aコアのid") and isset($this->team[2][$name])){
+            if($event->getBlock()->getID() == $config->get("aコアのid") and $event->getBlock()->getDamage() == 1 and isset($this->team[2][$name])){
                 $teamname="TeamA";
                 if($this->teamcore[1] ==0){
                     $teamname ="TeamB";
                     $ok=1;
                 }
             }
-            elseif($event->getBlock()->getID() == $config->get("bコアのid") and isset($this->team[1][$name])){
+            elseif($event->getBlock()->getID() == $config->get("bコアのid") and $event->getBlock()->getDamage() == 2 and isset($this->team[1][$name])){
                 $teamname="TeamB";
                 if($this->teamcore[2] ==0){
                     $ok=1;
