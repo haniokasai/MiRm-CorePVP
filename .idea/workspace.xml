@@ -16,8 +16,8 @@
       <file leaf-file-name="mirm_core.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/mirm_core/mirm_core.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="113" column="17" lean-forward="false" selection-start-line="113" selection-start-column="17" selection-end-line="113" selection-end-column="17" />
+            <state relative-caret-position="374">
+              <caret line="157" column="54" lean-forward="false" selection-start-line="157" selection-start-column="54" selection-end-line="157" selection-end-column="54" />
               <folding>
                 <element signature="e#27#58#0#PHP" expanded="true" />
               </folding>
@@ -238,12 +238,12 @@
       <workItem from="1511098547938" duration="3238000" />
       <workItem from="1511183225290" duration="599000" />
       <workItem from="1511268381822" duration="1899000" />
-      <workItem from="1511272692960" duration="1654000" />
+      <workItem from="1511272692960" duration="1954000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13836000" />
+    <option name="totallyTimeSpent" value="14136000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
@@ -401,8 +401,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mirm_core/mirm_core.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="113" column="17" lean-forward="false" selection-start-line="113" selection-start-column="17" selection-end-line="113" selection-end-column="17" />
+        <state relative-caret-position="374">
+          <caret line="157" column="54" lean-forward="false" selection-start-line="157" selection-start-column="54" selection-end-line="157" selection-end-column="54" />
           <folding>
             <element signature="e#27#58#0#PHP" expanded="true" />
           </folding>

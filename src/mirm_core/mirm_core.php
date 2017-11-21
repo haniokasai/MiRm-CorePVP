@@ -30,9 +30,6 @@ class mirm_core extends PluginBase implements Listener
         global $config;
         $config = new Config($this->getDataFolder() . "configcore.yml", Config::YAML,
                 array(
-                    "aコアのid"=>247,
-                    "bコアのid"=>247,
-                    "TPのブロックのid"=>19,
                     "HP"=>50,
                     "コア破壊得点"=>1,
                     "キル得点"=> 1,
@@ -114,7 +111,7 @@ class mirm_core extends PluginBase implements Listener
         echo $gm;
         if($gm != "core") return;
 
-        if ($blockid == $config->get("TPのブロックのid")){
+        if ($blockid == 19){
             unset($blockid );
             echo 1;
             if(isset($this->joinedpvp[$name] )){
@@ -149,16 +146,16 @@ class mirm_core extends PluginBase implements Listener
         $name = $player->getName();
         global $config;
 
-        if($event->getBlock()->getID() == $config->get("aコアのid")||$event->getBlock()->getID() == $config->get("bコアのid")){
+        if($event->getBlock()->getID() == 247 ||$event->getBlock()->getID() == 247 ){
             $event->setCancelled(true);
-            if($event->getBlock()->getID() == $config->get("aコアのid") and $event->getBlock()->getDamage() == 1 and isset($this->team[2][$name])){
+            if($event->getBlock()->getID() ==247 and $event->getBlock()->getDamage() == 1 and isset($this->team[2][$name])){
                 $teamname="TeamA";
                 if($this->teamcore[1] ==0){
                     $teamname ="TeamB";
                     $ok=1;
                 }
             }
-            elseif($event->getBlock()->getID() == $config->get("bコアのid") and $event->getBlock()->getDamage() == 2 and isset($this->team[1][$name])){
+            elseif($event->getBlock()->getID() == 247  and $event->getBlock()->getDamage() == 2 and isset($this->team[1][$name])){
                 $teamname="TeamB";
                 if($this->teamcore[2] ==0){
                     $ok=1;
