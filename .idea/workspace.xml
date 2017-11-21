@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eb8d0106-a43c-4723-b278-f6de14f1cd96" name="デフォルト" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mirm_core/mirm_core.php" afterPath="$PROJECT_DIR$/src/mirm_core/mirm_core.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,10 +16,10 @@
       <file leaf-file-name="mirm_core.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/mirm_core/mirm_core.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1445">
-              <caret line="299" column="52" lean-forward="false" selection-start-line="299" selection-start-column="52" selection-end-line="299" selection-end-column="52" />
+            <state relative-caret-position="-2432">
+              <caret line="291" column="53" lean-forward="false" selection-start-line="291" selection-start-column="53" selection-end-line="291" selection-end-column="53" />
               <folding>
-                <element signature="e#27#58#0#PHP" expanded="false" />
+                <element signature="e#27#58#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -236,12 +235,12 @@
       <workItem from="1511007344800" duration="1920000" />
       <workItem from="1511098547938" duration="3238000" />
       <workItem from="1511183225290" duration="599000" />
-      <workItem from="1511268381822" duration="662000" />
+      <workItem from="1511268381822" duration="1857000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10945000" />
+    <option name="totallyTimeSpent" value="12140000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
@@ -389,8 +388,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mirm_core/mirm_core.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1445">
-          <caret line="299" column="52" lean-forward="false" selection-start-line="299" selection-start-column="52" selection-end-line="299" selection-end-column="52" />
+        <state relative-caret-position="-2432">
+          <caret line="291" column="53" lean-forward="false" selection-start-line="291" selection-start-column="53" selection-end-line="291" selection-end-column="53" />
           <folding>
             <element signature="e#27#58#0#PHP" expanded="true" />
           </folding>

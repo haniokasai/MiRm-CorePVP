@@ -270,6 +270,28 @@ class mirm_core extends PluginBase implements Listener
                             return;
                         }
 
+                        switch ($args[1]){
+                            case "team1":
+                                $config->set("a座標のX",$player->getFloorX());
+                                $config->set("a座標のY",$player->getFloorY());
+                                $config->set("a座標のZ",$player->getFloorZ());
+                                break;
+                            case "team2":
+                                $config->set("b座標のX",$player->getFloorX());
+                                $config->set("b座標のY",$player->getFloorY());
+                                $config->set("b座標のZ",$player->getFloorZ());
+                                break;
+                            default:
+                                $sender->sendMessage("Usege: /corepvp setspawn <team1:team2>");
+                                return;
+                        }
+
+
+                        $config->save();
+
+                        $sender->sendMessage("チームスポーン変更完了。再起動してください。");
+
+
                         break;
                     }
                     case "killpoint":{
