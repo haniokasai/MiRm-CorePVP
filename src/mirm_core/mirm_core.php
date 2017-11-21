@@ -109,7 +109,9 @@ class mirm_core extends PluginBase implements Listener
         if(isset($this->end) && $this->end){
             return;
         }
+
         global $gm;
+        echo $gm;
         if($gm != "core") return;
 
         if ($blockid == $config->get("TPのブロックのid")){
