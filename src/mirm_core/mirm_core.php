@@ -29,11 +29,11 @@ class mirm_core extends PluginBase implements Listener
         
         global $config;
         $config = new Config($this->getDataFolder() . "configcore.yml", Config::YAML,
-                array("HP"=>100,
+                array(
                     "aコアのid"=>100,
                     "bコアのid"=>100,
                     "TPのブロックのid"=>100,
-                    "CoreHP"=>50,
+                    "HP"=>50,
                     "コア破壊得点"=>1,
                     "キル得点"=> 1,
                     "ゲームモード"=> "off",
@@ -98,7 +98,7 @@ class mirm_core extends PluginBase implements Listener
    */
     public function oninteract(PlayerInteractEvent $event){
         global $gm;
-        if($gm != "corepvp") return;
+        if($gm != "core") return;
 
         global $config;
 
@@ -110,7 +110,7 @@ class mirm_core extends PluginBase implements Listener
             return;
         }
         global $gm;
-        if($gm != "corepvp") return;
+        if($gm != "core") return;
 
         if ($blockid == $config->get("TPのブロックのid")){
             unset($blockid );
@@ -257,7 +257,7 @@ class mirm_core extends PluginBase implements Listener
                         }
 
                         $mode=$args[1];
-                        $config->set("CoreHP",$mode);
+                        $config->set("HP",$mode);
                         $config->save();
 
                         $sender->sendMessage("HP変更完了。再起動してください。");
@@ -327,7 +327,7 @@ class mirm_core extends PluginBase implements Listener
             }
             case "tc": {
                 global $gm;
-                if($gm != "corepvp") return;
+                if($gm != "core") return;
 
                 $name = $sender->getName();
                 $players = Server::getInstance()->getOnlinePlayers();
@@ -377,7 +377,7 @@ class mirm_core extends PluginBase implements Listener
     public function optionbow(EntityDamageEvent $event)
     {
         global $gm;
-        if($gm != "corepvp") return;
+        if($gm != "core") return;
 
         if ($event instanceof EntityDamageEvent) {
             if ($event instanceof EntityDamageByEntityEvent) {
