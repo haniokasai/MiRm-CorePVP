@@ -33,6 +33,7 @@ class mirm_core extends PluginBase implements Listener
                     "aコアのid"=>100,
                     "bコアのid"=>100,
                     "TPのブロックのid"=>100,
+                    "CoreHP"=>50,
                     "コア破壊得点"=>1,
                     "キル得点"=> 1,
                     "ゲームモード"=> "off",
@@ -51,6 +52,13 @@ class mirm_core extends PluginBase implements Listener
             Server::getInstance()->getLogger()->info("EconomyAPIが読み込めませんでした");
         }
         ///
+        ///
+        ///
+
+        global $gm;
+        $gm = $config->get("ゲームモード");
+
+
         $this->team = [1 => [] , 2 => [] ];
         $this->joinedpvp = array();
         $this->teamcore =array();
@@ -89,6 +97,9 @@ class mirm_core extends PluginBase implements Listener
 
    */
     public function oninteract(PlayerInteractEvent $event){
+        global $gm;
+        if($gm != "corepvp") return;
+
         global $config;
 
         $blockid = $event->getBlock()->getId();
@@ -98,6 +109,8 @@ class mirm_core extends PluginBase implements Listener
         if(isset($this->end) && $this->end){
             return;
         }
+        global $gm;
+        if($gm != "corepvp") return;
 
         if ($blockid == $config->get("TPのブロックのid")){
             unset($blockid );
@@ -233,7 +246,7 @@ class mirm_core extends PluginBase implements Listener
                         $config->set("ゲームモード",$mode);
                         $config->save();
 
-                        $sender->sendMessage("ゲームモード変更完了。");
+                        $sender->sendMessage("ゲームモード変更完了。再起動してください。");
 
                         break;
                     }
@@ -242,6 +255,12 @@ class mirm_core extends PluginBase implements Listener
                             $sender->sendMessage("Usege: /corepvp sethp 数字");
                             return;
                         }
+
+                        $mode=$args[1];
+                        $config->set("CoreHP",$mode);
+                        $config->save();
+
+                        $sender->sendMessage("HP変更完了。再起動してください。");
 
                         break;
                     }
@@ -259,6 +278,13 @@ class mirm_core extends PluginBase implements Listener
                             return;
                         }
 
+                        $mode=$args[1];
+                        $config->set("キル得点",$mode);
+                        $config->save();
+
+                        $sender->sendMessage("キル得点変更完了。再起動してください。");
+
+
                         break;
                     }
                     case "corepoint":{
@@ -267,11 +293,20 @@ class mirm_core extends PluginBase implements Listener
                             return;
                         }
 
+                        $mode=$args[1];
+                        $config->set("コア破壊得点",$mode);
+                        $config->save();
+
+                        $sender->sendMessage("コア破壊得点変更完了。再起動してください。");
+
                         break;
                     }
                 }
             }
             case "tc": {
+                global $gm;
+                if($gm != "corepvp") return;
+
                 $name = $sender->getName();
                 $players = Server::getInstance()->getOnlinePlayers();
                 if(isset($this->team[1][$name])){
@@ -319,6 +354,9 @@ class mirm_core extends PluginBase implements Listener
     ////共食い
     public function optionbow(EntityDamageEvent $event)
     {
+        global $gm;
+        if($gm != "corepvp") return;
+
         if ($event instanceof EntityDamageEvent) {
             if ($event instanceof EntityDamageByEntityEvent) {
                 if ($event->getDamager() instanceof Player && $event->getEntity() instanceof Player) {
@@ -360,6 +398,10 @@ class mirm_core extends PluginBase implements Listener
     }
 
     public function death(PlayerDeathEvent $event){
+
+        global $gm;
+        if($gm == "off") return;
+
         $player = $event->getPlayer();
         global $config;
         global $config2;
@@ -397,7 +439,7 @@ class mirm_core extends PluginBase implements Listener
     public function setTitle(Player $player){
         $name =$player->getName();
         global $config2;
-        $lv = $config2->get($name)!=15?$config2->get($name):"§dMax";
+        $lv = $config2->get($name."_lv")!=15?$config2->get($name."_lv"):"§dMax";
 
         ///あとで
         $team =null;

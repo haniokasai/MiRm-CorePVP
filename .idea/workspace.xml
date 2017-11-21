@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eb8d0106-a43c-4723-b278-f6de14f1cd96" name="デフォルト" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mirm_core/mirm_core.php" afterPath="$PROJECT_DIR$/src/mirm_core/mirm_core.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,10 +17,10 @@
       <file leaf-file-name="mirm_core.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/mirm_core/mirm_core.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="506">
-              <caret line="390" column="45" lean-forward="false" selection-start-line="390" selection-start-column="42" selection-end-line="390" selection-end-column="45" />
+            <state relative-caret-position="-1445">
+              <caret line="299" column="52" lean-forward="false" selection-start-line="299" selection-start-column="52" selection-end-line="299" selection-end-column="52" />
               <folding>
-                <element signature="e#27#58#0#PHP" expanded="true" />
+                <element signature="e#27#58#0#PHP" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -86,10 +87,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
-      <pane id="AndroidView" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -112,6 +109,10 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -234,11 +235,13 @@
       <workItem from="1510929968322" duration="2199000" />
       <workItem from="1511007344800" duration="1920000" />
       <workItem from="1511098547938" duration="3238000" />
+      <workItem from="1511183225290" duration="599000" />
+      <workItem from="1511268381822" duration="662000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9684000" />
+    <option name="totallyTimeSpent" value="10945000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
@@ -330,6 +333,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/mirm_core/mirm_core.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#27#58#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mirm_core/mirm_core.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#27#58#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/plugin.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="646">
@@ -366,8 +389,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mirm_core/mirm_core.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="390" column="45" lean-forward="false" selection-start-line="390" selection-start-column="42" selection-end-line="390" selection-end-column="45" />
+        <state relative-caret-position="-1445">
+          <caret line="299" column="52" lean-forward="false" selection-start-line="299" selection-start-column="52" selection-end-line="299" selection-end-column="52" />
           <folding>
             <element signature="e#27#58#0#PHP" expanded="true" />
           </folding>
