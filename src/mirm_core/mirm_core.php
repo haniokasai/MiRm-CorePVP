@@ -187,6 +187,11 @@ class mirm_core extends PluginBase implements Listener
                         $playerass->teleport(Server::getInstance()->getDefaultLevel()->getSpawnLocation());
                     }
 
+                    unset($this->joined);
+                    unset($this->joinedpvp);
+                    unset($this->team);
+                    unset($this->teamcore);
+
                     ///
                     $this->team = [1 => [] , 2 => [] ];
                     $this->joinedpvp = array();
@@ -196,9 +201,6 @@ class mirm_core extends PluginBase implements Listener
                     $this->teamcore[1]=$config->get("HP");
                     $this->teamcore[2]=$config->get("HP");
                     ////
-                    unset($this->joined);
-                    unset($this->team);
-                    unset($this->teamcore);
 
                 }
             }
