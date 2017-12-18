@@ -224,7 +224,7 @@ class mirm_core extends PluginBase implements Listener
             case "corepvp": {
 
                 if(!isset($args[0])){
-                    $sender->sendMessage("Usege: /corepvp <mode/sethp/setspawn/killpoint/corepoint>");
+                    $sender->sendMessage("Usege: /corepvp <mode/sethp/setspawn/killpoint/corepoint/kills>");
                     break;
                 }
 
