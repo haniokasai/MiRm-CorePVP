@@ -326,6 +326,21 @@ class mirm_core extends PluginBase implements Listener
 
                         break;
                     }
+                    case "kills":
+                        global /** @var Config $config2 */
+                        $config2;
+                        if(!isset($args[1])){
+                            $kill = $config2->get($name."_kill");
+                            $sender->sendMessage("「CorePVP」".$name."のキル数は".$kill."です");
+                        }
+                        $name=$args[1];
+                        if($config2->exists($name."_kill")){
+                            $kill = $config2->get($name."_kill");
+                            $sender->sendMessage("「CorePVP」".$name."のキル数は".$kill."です");
+                        }else{
+                            $sender->sendMessage("「CorePVP」".$name."なる人はいないです");
+                        }
+
                 }
             }
             break;
@@ -452,11 +467,6 @@ class mirm_core extends PluginBase implements Listener
 
                 $money = $config->get("キル得点");
                 $this->EconomyAPI->addMoney($killername,$money);
-                $killer->sendMessage("君は".$player->getName()."を倒した！\n
-                ".$money."をゲットした！\n
-                次のレベルまで残り".($kill-($lv*100))."キル\n
-                ");
-                $config2->set($killername,$lv);
                 $this->setTitle($killer);
             }
         }
@@ -474,7 +484,7 @@ class mirm_core extends PluginBase implements Listener
         }elseif(isset($this->team[2][$name])) {
             $team ="<TeamB>";
         }
-        $player->setDisplayName("<".$name."[".$lv['level']."Lv]".$team.">");
-        $player->setNameTag("<".$name."[".$lv['level']."Lv]".$team.">");
+        $player->setDisplayName("<".$name.$team.">");
+        $player->setNameTag("<".$name.$team.">");
     }
 }
