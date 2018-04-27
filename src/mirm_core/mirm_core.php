@@ -95,7 +95,7 @@ class mirm_core extends PluginBase implements Listener
    */
     public function oninteract(PlayerInteractEvent $event){
         global $gm;
-        if($gm != "core") return;
+        if($gm != "core") return true;
 
         global $config;
 
@@ -104,12 +104,12 @@ class mirm_core extends PluginBase implements Listener
         $name = $player->getName();
         echo $blockid;
         if(isset($this->end) && $this->end){
-            return;
+            return true;
         }
 
         global $gm;
         echo $gm;
-        if($gm != "core") return;
+        if($gm != "core") return true;
 
         if ($blockid == 19){
             unset($blockid );
@@ -118,7 +118,7 @@ class mirm_core extends PluginBase implements Listener
                 echo 2;
                 if($this->joinedpvp[$name] == 1 ){
                     $player->sendMessage(TextFormat::RED ."[PVP]あなたはすでにpvpに参加しています。");
-                    return;
+                    return true;
                 }
             }
             $this->joinedpvp[$name] =1;
@@ -208,7 +208,7 @@ class mirm_core extends PluginBase implements Listener
     }
 
 
-    public function onCommand(CommandSender $sender, Command $command,$label,array $args)
+    public function onCommand(CommandSender $sender, Command $command, string  $label,array $args):bool
     {
 
         /** @var Player $player */
@@ -224,7 +224,7 @@ class mirm_core extends PluginBase implements Listener
             case "corepvp": {
 
                 if(!isset($args[0])){
-                    $sender->sendMessage("Usege: /corepvp <mode/sethp/setspawn/killpoint/corepoint/kills>");
+                    $sender->sendMessage("Usege: /corepvp <mode/sethp/setspawn/killpoint/corepoint>");
                     break;
                 }
 
@@ -232,7 +232,7 @@ class mirm_core extends PluginBase implements Listener
                     case "mode":{
                         if(!isset($args[1])){
                             $sender->sendMessage("Usege: /corepvp mode <off:ffa:core>");
-                            return;
+                            return false;
                         }
 
                         switch ($args[1]){
@@ -242,7 +242,7 @@ class mirm_core extends PluginBase implements Listener
                                 break;
                             default:
                                 $sender->sendMessage("Usege: /corepvp mode <off:ffa:core>");
-                                return;
+                                return false;
                         }
 
                         $mode=$args[1];
@@ -256,7 +256,7 @@ class mirm_core extends PluginBase implements Listener
                     case "sethp":{
                         if(!isset($args[1])&&is_numeric($args[1])){
                             $sender->sendMessage("Usege: /corepvp sethp 数字");
-                            return;
+                            return false;
                         }
 
                         $mode=$args[1];
@@ -270,7 +270,7 @@ class mirm_core extends PluginBase implements Listener
                     case "setspawn":{
                         if(!isset($args[1])&&is_numeric($args[1])){
                             $sender->sendMessage("Usege: /corepvp setspawn <team1:team2>");
-                            return;
+                            return false;
                         }
 
                         switch ($args[1]){
@@ -286,7 +286,7 @@ class mirm_core extends PluginBase implements Listener
                                 break;
                             default:
                                 $sender->sendMessage("Usege: /corepvp setspawn <team1:team2>");
-                                return;
+                                return false;
                         }
 
 
@@ -300,7 +300,7 @@ class mirm_core extends PluginBase implements Listener
                     case "killpoint":{
                         if(!isset($args[1])&&is_numeric($args[1])){
                             $sender->sendMessage("Usege: /corepvp killpoint 数字");
-                            return;
+                            return false;
                         }
 
                         $mode=$args[1];
@@ -315,7 +315,7 @@ class mirm_core extends PluginBase implements Listener
                     case "corepoint":{
                         if(!isset($args[1])&&is_numeric($args[1])){
                             $sender->sendMessage("Usege: /corepvp corepoint 数字");
-                            return;
+                            return false;
                         }
 
                         $mode=$args[1];
@@ -326,27 +326,12 @@ class mirm_core extends PluginBase implements Listener
 
                         break;
                     }
-                    case "kills":
-                        global /** @var Config $config2 */
-                        $config2;
-                        if(!isset($args[1])){
-                            $kill = $config2->get($name."_kill");
-                            $sender->sendMessage("「CorePVP」".$name."のキル数は".$kill."です");
-                        }
-                        $name=$args[1];
-                        if($config2->exists($name."_kill")){
-                            $kill = $config2->get($name."_kill");
-                            $sender->sendMessage("「CorePVP」".$name."のキル数は".$kill."です");
-                        }else{
-                            $sender->sendMessage("「CorePVP」".$name."なる人はいないです");
-                        }
-
                 }
             }
             break;
             case "tc": {
                 global $gm;
-                if($gm != "core") return;
+                if($gm != "core") return false;
 
                 $name = $sender->getName();
                 $players = Server::getInstance()->getOnlinePlayers();
@@ -364,6 +349,7 @@ class mirm_core extends PluginBase implements Listener
                 break;
             }
         }
+        return true;
     }
     public function onPlayerDeath(PlayerDeathEvent $event)
     {
@@ -396,7 +382,7 @@ class mirm_core extends PluginBase implements Listener
     public function optionbow(EntityDamageEvent $event)
     {
         global $gm;
-        if($gm != "core") return;
+        if($gm != "core") return true;
 
         if ($event instanceof EntityDamageEvent) {
             if ($event instanceof EntityDamageByEntityEvent) {
@@ -441,7 +427,7 @@ class mirm_core extends PluginBase implements Listener
     public function death(PlayerDeathEvent $event){
 
         global $gm;
-        if($gm == "off") return;
+        if($gm == "off") return true;
 
         $player = $event->getPlayer();
         global $config;
@@ -467,6 +453,11 @@ class mirm_core extends PluginBase implements Listener
 
                 $money = $config->get("キル得点");
                 $this->EconomyAPI->addMoney($killername,$money);
+                $killer->sendMessage("君は".$player->getName()."を倒した！\n
+                ".$money."をゲットした！\n
+                次のレベルまで残り".($kill-($lv*100))."キル\n
+                ");
+                $config2->set($killername,$lv);
                 $this->setTitle($killer);
             }
         }
@@ -484,7 +475,7 @@ class mirm_core extends PluginBase implements Listener
         }elseif(isset($this->team[2][$name])) {
             $team ="<TeamB>";
         }
-        $player->setDisplayName("<".$name.$team.">");
-        $player->setNameTag("<".$name.$team.">");
+        $player->setDisplayName("<".$name."[".$lv['level']."Lv]".$team.">");
+        $player->setNameTag("<".$name."[".$lv['level']."Lv]".$team.">");
     }
 }
