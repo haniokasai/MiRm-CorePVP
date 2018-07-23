@@ -17,8 +17,13 @@ use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat;
 
+
 class mirm_core extends PluginBase implements Listener
 {
+    private $teamcore;
+    private $joinedpvp;
+    private $team;
+
     public function onEnable()
     {
         Server::getInstance()->getPluginManager()->registerEvents($this,$this);
@@ -35,7 +40,12 @@ class mirm_core extends PluginBase implements Listener
                     "キル得点"=> 1,
                     "ゲームモード"=> "off",
                     "a座標のX"=>100,"a座標のY"=>100,"a座標のZ"=>100,
-                    "b座標のX"=>100,"b座標のY"=>100,"b座標のZ"=>100)
+                    "b座標のX"=>100,"b座標のY"=>100,"b座標のZ"=>100,
+                    "TeamACoreID",
+                    "TeamACoreMeta",
+                    "TeamACoreID",
+                    "TeamACoreMeta"
+                )
         );
         global $config2;
         $config2 = new Config($this->getDataFolder() . "configlevel.yml", Config::YAML,
@@ -97,7 +107,8 @@ class mirm_core extends PluginBase implements Listener
         global $gm;
         if($gm != "core") return true;
 
-        global $config;
+        global /** @var Config $config */
+        $config;
 
         $blockid = $event->getBlock()->getId();
         $player = $event->getPlayer();
@@ -139,12 +150,14 @@ class mirm_core extends PluginBase implements Listener
             $player->teleport($pos);
             $this->setTitle($player);
         }
+        return true;
     }
 
     public function onbreak(BlockBreakEvent $event){
         $player = $event->getPlayer();
         $name = $player->getName();
-        global $config;
+        global /** @var Config $config */
+        $config;
 
         if($event->getBlock()->getID() == 247 ||$event->getBlock()->getID() == 247 ){
             $event->setCancelled(true);
@@ -387,7 +400,9 @@ class mirm_core extends PluginBase implements Listener
         if ($event instanceof EntityDamageEvent) {
             if ($event instanceof EntityDamageByEntityEvent) {
                 if ($event->getDamager() instanceof Player && $event->getEntity() instanceof Player) {
+                    /** @var Player $sender */
                     $sender = $event->getDamager();
+                    /** @var Player $reciever */
                     $reciever = $event->getEntity();
                     unset($sname);
                     unset($rname);
@@ -407,6 +422,7 @@ class mirm_core extends PluginBase implements Listener
                 }
             }
         }
+        return true;
     }
 
 
@@ -430,11 +446,14 @@ class mirm_core extends PluginBase implements Listener
         if($gm == "off") return true;
 
         $player = $event->getPlayer();
-        global $config;
-        global $config2;
+        global /** @var Config $config */
+        $config;
+        global /** @var Config $config2 */
+        $config2;
         $ev = $player->getLastDamageCause();
         if ($ev instanceof EntityDamageByEntityEvent) {
             //$event->setDeathMessage();
+            /** @var Player $killer */
             $killer = $ev->getDamager();
             $killername = $killer->getName();
             if ($killer instanceof Player) {
@@ -461,11 +480,12 @@ class mirm_core extends PluginBase implements Listener
                 $this->setTitle($killer);
             }
         }
+        return true;
     }
 
     public function setTitle(Player $player){
         $name =$player->getName();
-        global $config2;
+        global /** @var Config $config2 */$config2;
         $lv = $config2->get($name."_lv")!=15?$config2->get($name."_lv"):"§dMax";
 
         ///あとで
