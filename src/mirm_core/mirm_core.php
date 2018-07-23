@@ -23,6 +23,7 @@ class mirm_core extends PluginBase implements Listener
     private $teamcore;
     private $joinedpvp;
     private $team;
+    private $teamcoreid;
 
     public function onEnable()
     {
@@ -41,10 +42,10 @@ class mirm_core extends PluginBase implements Listener
                     "ゲームモード"=> "off",
                     "a座標のX"=>100,"a座標のY"=>100,"a座標のZ"=>100,
                     "b座標のX"=>100,"b座標のY"=>100,"b座標のZ"=>100,
-                    "TeamACoreID",
-                    "TeamACoreMeta",
-                    "TeamACoreID",
-                    "TeamACoreMeta"
+                    "TeamACoreID"=>247,
+                    "TeamACoreMeta"=>1,
+                    "TeamBCoreID"=>247,
+                    "TeamBCoreMeta"=>2
                 )
         );
         global $config2;
@@ -69,11 +70,18 @@ class mirm_core extends PluginBase implements Listener
         $this->team = [1 => [] , 2 => [] ];
         $this->joinedpvp = array();
         $this->teamcore =array();
+        $this->teamcoreid = array();
 
         //teamcore代入
         $this->teamcore[1]=$config->get("HP");
         $this->teamcore[2]=$config->get("HP");
         ////
+
+        //teamcoreid=
+        $this->teamcoreid[1]["id"] = $config->exists("TeamACoreID")?$config->get("TeamACoreID"):247;
+        $this->teamcoreid[2]["id"] = $config->exists("TeamBCoreID")?$config->get("TeamBCoreID"):247;
+        $this->teamcoreid[1]["Meta"] = $config->exists("TeamACoreMeta")?$config->get("TeamACoreMeta"):1;
+        $this->teamcoreid[2]["Meta"] = $config->exists("TeamBCoreMeta")?$config->get("TeamBCoreMeta"):2;
         Server::getInstance()->getLogger()->info("mirm-coreが読み込まれました");
     }
 
@@ -158,10 +166,10 @@ class mirm_core extends PluginBase implements Listener
         $name = $player->getName();
         global /** @var Config $config */
         $config;
-
-        if($event->getBlock()->getID() == 247 ||$event->getBlock()->getID() == 247 ){
+        $teamname="null";
+        if($event->getBlock()->getID() == $this->teamcoreid[1]["id"] ||$event->getBlock()->getID() == $this->teamcoreid[2]["id"] ){
             $event->setCancelled(true);
-            if($event->getBlock()->getID() ==247 and $event->getBlock()->getDamage() == 1 and isset($this->team[2][$name])){
+            if($event->getBlock()->getID() ==$this->teamcoreid[1]["id"] and $event->getBlock()->getDamage() == $this->teamcoreid[1]["Meta"] and isset($this->team[2][$name])){
                 $teamname="TeamA";
                 $this->teamcore[1]=$this->teamcore[1]-1;
                 if($this->teamcore[1] ==0){
@@ -169,7 +177,7 @@ class mirm_core extends PluginBase implements Listener
                     $ok=1;
                 }
             }
-            elseif($event->getBlock()->getID() == 247  and $event->getBlock()->getDamage() == 2 and isset($this->team[1][$name])){
+            elseif($event->getBlock()->getID() == $this->teamcoreid[2]["id"]  and $event->getBlock()->getDamage() == $this->teamcoreid[2]["Meta"] and isset($this->team[1][$name])){
                 $teamname="TeamB";
                 $this->teamcore[2]=$this->teamcore[2]-1;
                 if($this->teamcore[2] ==0){
@@ -183,6 +191,8 @@ class mirm_core extends PluginBase implements Listener
                     $player->sendPopUp(TextFormat::YELLOW.$name."が自チームのコアを攻撃。");
                 }
             }
+
+
             if(!isset($ng)){
                 $players = Server::getInstance()->getOnlinePlayers();
                 $money= $config->get("コア破壊得点");
@@ -214,7 +224,6 @@ class mirm_core extends PluginBase implements Listener
                     $this->teamcore[1]=$config->get("HP");
                     $this->teamcore[2]=$config->get("HP");
                     ////
-
                 }
             }
         }
@@ -242,6 +251,23 @@ class mirm_core extends PluginBase implements Listener
                 }
 
                 switch ($args[0]){
+                    case "setcore":{
+                        if(!isset($args[1])&&!isset($args[2])&&!isset($args[3])&&!is_numeric($args[2])&&!is_numeric($args[3])&&($args[1]=="a"|$args[1]=="b")){
+                            $sender->sendMessage("Usege:  /corepvp setcore <a:b> <アイテムID> <メタ値> -コアのIDを決定");
+                            return false;
+                        }
+                        $teamid=$args[1];
+                        $itemid=$args[2];
+                        $metaid=$args[3];
+
+
+                        $config->set("Team".mb_strtoupper($teamid)."CoreID",$itemid);
+                        $config->set("Team".mb_strtoupper($teamid)."CoreMeta",$metaid);
+                        $sender->sendMessage("セット完了。再起動してください。");
+                        $config->save();
+
+                        break;
+                    }
                     case "mode":{
                         if(!isset($args[1])){
                             $sender->sendMessage("Usege: /corepvp mode <off:ffa:core>");
